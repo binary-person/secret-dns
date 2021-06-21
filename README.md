@@ -28,13 +28,13 @@ npm install
 ## Usage
 
 ```bash
-sudo src/index.js very_secret_nonexistent_domain_here.com
+sudo node src/index.js very_secret_nonexistent_domain_here.com
 
 # return 1.1.1.1 upon querying the password domain
-sudo src/index.js very_secret_nonexistent_domain_here.com 1.1.1.1
+sudo node src/index.js very_secret_nonexistent_domain_here.com 1.1.1.1
 
 # clear all iptables chains and rules created by secret-dns
-sudo src/index.js cleanup
+sudo node src/index.js cleanup
 ```
 
 ## Running it on startup
@@ -53,6 +53,23 @@ pm2 start --name 'secret-dns' 'node src/index.js very_secret_nonexistent_domain_
 
 # save pm2 configuration
 pm2 save
+```
+
+## Useful iptables commands
+
+```bash
+sudo su
+
+# Viewing the whitelist (The last two entries are responsible for redirecting any leftover un-whitelisted IP addresses to port 5334)
+iptables -t nat -nL secret-dns-chain
+
+# Adding an IP to the whitelist
+iptables -t nat -I secret-dns-chain 1 -p udp --dport 53 -s your.ip.address.here -j ACCEPT
+iptables -t nat -I secret-dns-chain 1 -p tcp --dport 53 -s your.ip.address.here -j ACCEPT
+
+# Removing an IP from the whitelist
+iptables -t nat -D secret-dns-chain -p udp --dport 53 -s your.ip.address.here -j ACCEPT
+iptables -t nat -D secret-dns-chain -p tcp --dport 53 -s your.ip.address.here -j ACCEPT
 ```
 
 ## How it works
