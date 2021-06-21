@@ -1,7 +1,7 @@
 {
   "name": "secret-dns",
-  "version": "1.0.0",
-  "keywords": ["dns-server", "security", "iptables", "nodejs"],
+  "version": "1.0.1",
+  "keywords": ["dns", "dns-server", "security", "iptables", "firewall", "nodejs"],
   "author": "Simon Cheng",
   "license": "ISC",
   "repository": {
