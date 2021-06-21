@@ -1,6 +1,6 @@
 # secret-dns
 
-> Undiscoverable publicly accessible password-protected DNS
+> Undiscoverable publicly accessible "password-protected" DNS
 
 ## Brief
 
@@ -11,6 +11,11 @@ This package is for people who
 - do not want to manually add IPs to a whitelist
 - do not want the hassle of creating a whitelist/blacklist system
 - want a package that does all the above that is plug-and-play
+
+The client is required to query a secret "password" domain to the DNS server to be whitelisted and be able to use the actual DNS server on port 53.
+If the client is not whitelisted, the DNS query request to port 53 will be redirected port 5334.
+The client is required to query a secret DNS domain in order to access the real DNS server. If this password is incorrect, (lets say the client queries google.com), the node DNS server does not respond back, giving the client the impression there is no DNS server.
+If the client queries the correct secret DNS domain, (lets say the secret password domain is verysecretdomain.com and the client queries verysecretdomain.com), the node DNS server will add the client IP to the iptables chain whitelist, enabling the client to communicate with the actual DNS server.
 
 ## Install
 

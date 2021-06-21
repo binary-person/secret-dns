@@ -1,7 +1,7 @@
 {
   "name": "secret-dns",
   "version": "1.0.0",
-  "keywords": [],
+  "keywords": ["dns-server", "security", "iptables", "nodejs"],
   "author": "Simon Cheng",
   "license": "ISC",
   "repository": {
@@ -12,7 +12,7 @@
     "url": "https://github.com/binary-person/secret-dns/issues"
   },
   "homepage": "https://github.com/binary-person/secret-dns#readme",
-  "description": "",
+  "description": "Undiscoverable publicly accessible \"password-protected\" DNS",
   "dependencies": {
     "dns2": "^2.0.1"
   }
