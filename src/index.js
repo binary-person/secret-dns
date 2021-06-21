@@ -7,6 +7,7 @@ if (!(process.getuid && process.getuid() === 0)) {
 }
 
 const port = 5334;
+
 const secretDomainName = process.argv[2];
 const ipToReturn = process.argv[3]; // optional param
 
@@ -28,12 +29,13 @@ if (secretDomainName === 'cleanup') {
 
 const server = dns2.createUDPServer();
 const iptables = new Iptables(port);
+const whitelistedIPs = iptables.getWhitelist();
 
 server.on('request', (req, res, rinfo) => {
     if (!req.questions || req.questions.length > 100) return;
     for (const question of req.questions) {
         if (question.name === secretDomainName) {
-            if (rinfo.family === 'IPv4') { // ipv6 unsupported at the moment
+            if (rinfo.family === 'IPv4' && !whitelistedIPs.includes(rinfo.address)) { // ipv6 unsupported at the moment
                 const response = dns2.Packet.createResponseFromRequest(req);
                 response.answers.push({
                     secretDomainName,
@@ -44,6 +46,7 @@ server.on('request', (req, res, rinfo) => {
                 });
                 res(response);
                 iptables.whitelist(rinfo.address);
+                whitelistedIPs.push(rinfo.address);
                 console.log('Whitelisted ' + rinfo.address);
             }
             return;
@@ -53,3 +56,4 @@ server.on('request', (req, res, rinfo) => {
 });
 
 server.listen(port).then(() => console.log('Secret DNS server is up'));
+

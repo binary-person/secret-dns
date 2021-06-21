@@ -24,6 +24,9 @@ module.exports = class Iptables {
             return false;
         }
     }
+    getWhitelist() {
+        return (execSync('iptables -t nat -nL ' + chainName).toString('utf8').match(/(?<=ACCEPT     udp  --  )[^ ]+/g) || []);
+    }
 
     checkIptables() {
         try {
