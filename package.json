@@ -1,0 +1,19 @@
+{
+  "name": "secret-dns",
+  "version": "1.0.0",
+  "keywords": [],
+  "author": "Simon Cheng",
+  "license": "ISC",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/binary-person/secret-dns.git"
+  },
+  "bugs": {
+    "url": "https://github.com/binary-person/secret-dns/issues"
+  },
+  "homepage": "https://github.com/binary-person/secret-dns#readme",
+  "description": "",
+  "dependencies": {
+    "dns2": "^2.0.1"
+  }
+}
